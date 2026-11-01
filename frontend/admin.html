@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>COLM Admin</title>
+  <!-- Works from the project root AND from the frontend/ folder: it always ends up on frontend/login.html. -->
+  <script>
+    window.location.replace(/\/frontend\//i.test(window.location.pathname) ? "login.html" : "frontend/login.html");
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url=frontend/login.html"></noscript>
+</head>
+<body><a href="frontend/login.html">Continue to admin sign in</a></body>
+</html>

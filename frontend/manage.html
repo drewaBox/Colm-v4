@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>COLM Document Request System | COLM Registrar</title>
+
+  <meta name="description" content="COLM Document Request and Tracking System for students and alumni of the College of Our Lady of Mercy of Pulilan. Request academic documents and track their status online.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=10">
+  <script>(function(){var d=document.documentElement;function ok(){d.classList.add('icons-ready');}if(!document.fonts||!document.fonts.load){ok();return;}document.fonts.load('20px "Material Symbols Rounded"','settings').then(function(f){if(f&&f.length)ok();}).catch(function(){});})();</script>
+</head>
+
+
+<body data-portal-role="Staff">
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <div class="app" id="portalApp" hidden>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img class="logo" src="assets/images/colm_logo.png" alt="COLM logo">
+        <div class="brand-text">
+          <strong id="portalBrandTitle">STAFF PORTAL</strong>
+          <span>COLM REGISTRAR</span>
+        </div>
+        <button class="collapse-btn" id="collapseBtn" type="button" aria-label="Toggle sidebar"><span class="material-symbol" id="sidebarIcon">left_panel_close</span></button>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-group" data-roles="admin,registrar">
+          <div class="section-title">OVERVIEW</div>
+          <a class="nav-item" href="#" data-page="Overview &amp; KPIs" data-roles="admin,registrar"><span class="icon material-symbol">home</span><span>Overview &amp; KPIs</span></a>
+          <a class="nav-item" href="#" data-page="All Requests" data-roles="admin,registrar"><span class="icon material-symbol">assignment</span><span>All Requests</span></a>
+          <a class="nav-item" href="#" data-page="Payment Receipts" data-roles="admin,registrar"><span class="icon material-symbol">receipt_long</span><span>Payment Receipts</span></a>
+        </div>
+        <div class="nav-group" data-roles="admin,registrar">
+          <div class="section-title">MANAGEMENT</div>
+          <a class="nav-item" href="#" data-page="Students" data-roles="admin,registrar"><span class="icon material-symbol">school</span><span>Students</span></a>
+          <a class="nav-item" href="#" data-page="Master Lists" data-roles="admin,registrar"><span class="icon material-symbol">fact_check</span><span>Master Lists</span></a>
+          <a class="nav-item" href="#" data-page="Catalog" data-roles="admin,registrar"><span class="icon material-symbol">description</span><span>Catalog</span></a>
+          <a class="nav-item" href="#" data-page="Download Requests" data-roles="admin,registrar"><span class="icon material-symbol">download_for_offline</span><span>Download Requests</span></a>
+          <a class="nav-item" href="#" data-page="Academic Management" data-roles="admin"><span class="icon material-symbol">account_balance</span><span>Academic Management</span></a>
+          <a class="nav-item" href="#" data-page="Accounts" data-roles="admin"><span class="icon material-symbol">groups</span><span>Accounts</span></a>
+        </div>
+        <div class="nav-group" data-roles="admin,registrar">
+          <div class="section-title">TOOLS</div>
+          <a class="nav-item" href="#" data-page="Organizational Chart" data-roles="admin,registrar"><span class="icon material-symbol">account_tree</span><span>Organizational Chart</span></a>
+        </div>
+        <div class="nav-group">
+          <div class="section-title">GENERAL</div>
+          <a class="nav-item" href="#" data-page="Settings"><span class="icon material-symbol">settings</span><span>Settings</span></a>
+        </div>
+      </nav>
+
+      <div class="student-card">
+        <strong id="studentName"></strong>
+        <span id="studentRole">Admin</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="page-title">
+          <button class="collapse-btn mobile-sidebar-toggle" id="mobileSidebarBtn" type="button" aria-label="Open sidebar"><span class="material-symbol" id="mobileSidebarIcon">left_panel_open</span></button>
+          <span class="title-icon material-symbol" id="pageIcon">dashboard</span>
+          <span id="pageTitle">Dashboard</span>
+        </div>
+
+        <div class="top-actions">
+          <div class="search" id="searchControl">
+            <button class="search-toggle" id="searchToggle" type="button" aria-label="Open search" aria-expanded="false" aria-controls="searchInput"><span class="search-icon material-symbol">search</span></button>
+            <input id="searchInput" type="search" placeholder="Search" aria-label="Search portal" autocomplete="off" hidden>
+          </div>
+          <button type="button" class="top-icon notif-btn" id="notifBtn" title="Notifications" aria-label="Notifications" aria-expanded="false"><span class="material-symbol">notifications</span><span class="notif-badge" id="notifBadge" hidden>0</span></button>
+          <button type="button" class="top-icon" title="Theme" aria-label="Toggle theme" id="themeBtn"><span class="material-symbol" id="themeIcon">dark_mode</span></button>
+          <div class="profile-menu" id="profileMenu">
+            <div class="avatar material-symbol">person</div>
+            <span id="profileId"></span>
+            <span class="chevron material-symbol">expand_more</span>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div><strong id="profileName"></strong></div>
+              <div id="profileRole">Admin</div>
+              <hr>
+              <button type="button" data-page-action="Settings">Settings</button>
+              <button id="logoutBtn" type="button">Log out</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content" id="content">
+        <div class="dashboard">
+          <header class="dashboard-heading">
+            <div>
+              <p class="dashboard-eyebrow" id="portalEyebrow">COLM REGISTRAR</p>
+              <h1>Welcome back, <span id="welcomeName"></span></h1>
+              <p>Keep track of your registrar requests and student services.</p>
+            </div>
+            <time class="dashboard-date" id="dashboardDate"></time>
+          </header>
+
+          <section class="dashboard-section" aria-labelledby="requestOverviewTitle">
+            <div class="dashboard-section-heading">
+              <div>
+                <h2 id="requestOverviewTitle">Request overview</h2>
+                <p>Your document requests at a glance.</p>
+              </div>
+              <a class="dashboard-text-link" href="#" data-page-action="All Requests">View requests <span class="material-symbol">arrow_forward</span></a>
+            </div>
+
+            <div class="stat-cards">
+              <div class="stat-card">
+                <div class="stat-card-icon icon-total"><span class="material-symbol">description</span></div>
+                <div class="stat-card-info">
+                  <strong class="stat-number" id="statTotal">0</strong>
+                  <span class="stat-label" id="statTotalLabel">Total Requests</span>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-icon icon-processing"><span class="material-symbol">schedule</span></div>
+                <div class="stat-card-info">
+                  <strong class="stat-number" id="statProcessing">0</strong>
+                  <span class="stat-label" id="statProcessingLabel">In Processing</span>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-icon icon-pending"><span class="material-symbol">credit_card</span></div>
+                <div class="stat-card-info">
+                  <strong class="stat-number" id="statPending">0</strong>
+                  <span class="stat-label" id="statPendingLabel">Pending Payment</span>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-icon icon-ready"><span class="material-symbol">download</span></div>
+                <div class="stat-card-info">
+                  <strong class="stat-number" id="statReady">0</strong>
+                  <span class="stat-label" id="statReadyLabel">Ready for Claiming</span>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-icon icon-completed"><span class="material-symbol">check</span></div>
+                <div class="stat-card-info">
+                  <strong class="stat-number" id="statCompleted">0</strong>
+                  <span class="stat-label" id="statCompletedLabel">Released / Completed</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="request-empty" id="dashboardEmpty" hidden></div>
+          </section>
+
+          <section class="dashboard-section" aria-labelledby="queueTitle">
+            <div class="dashboard-section-heading">
+              <div><h2 id="queueTitle">Needs your attention</h2><p id="queueHint"></p></div>
+            </div>
+            <div class="requests-table-wrap">
+              <table class="requests-table">
+                <thead><tr><th>Tracking #</th><th>Requester</th><th>Course</th><th>Student status</th><th>Document</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="queueBody"><tr><td colspan="7" class="requests-empty">Nothing waiting.</td></tr></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="payment-receipts-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">PAYMENTS</p><h1>Payment Receipts</h1><p>Review uploaded payment proofs. Students must bring the hard copy of the receipt when their document is released.</p></div>
+          </header>
+          <div class="requests-card">
+            <div class="requests-table-wrap"><table class="requests-table">
+              <thead><tr><th>Tracking #</th><th>Student</th><th>Course</th><th>Amount</th><th>Method</th><th>Receipt details</th><th>File</th><th>Uploaded</th><th>Action</th></tr></thead>
+              <tbody id="paymentReceiptsBody"><tr><td colspan="9" class="requests-empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="download-requests-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">SOFT COPY</p><h1>Download Requests</h1><p>Students who used their download and ask for an additional one. Approve or reject each request.</p></div>
+          </header>
+          <div class="requests-card">
+            <div class="filter-bar" role="search" aria-label="Filter download requests">
+              <label>Status<select class="request-text-input" id="dlStatusFilter"><option value="PENDING">Pending</option><option value="APPROVED">Approved</option><option value="USED">Approved (used)</option><option value="REJECTED">Rejected</option><option value="ALL">All</option></select></label>
+              <button class="request-back-btn filter-reset" id="dlReset" type="button">Reset filters</button>
+            </div>
+            <p class="filter-count" id="dlCount" aria-live="polite"></p>
+            <div class="requests-table-wrap"><table class="requests-table compact">
+              <thead><tr><th>Student</th><th>Document</th><th>Request No.</th><th>Original download</th><th>Previous downloads</th><th>Reason</th><th>Request status</th><th>Approval</th><th>Action</th></tr></thead>
+              <tbody id="dlRequestsBody"><tr><td colspan="9" class="requests-empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="master-list-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">SEMESTER RECORDS</p><h1>Master Lists</h1><p>Import the master list of one semester. The older semester is archived automatically; archived records stay searchable and read-only.</p></div>
+          </header>
+          <div class="requests-card">
+            <form id="masterImportForm" class="release-control" enctype="multipart/form-data">
+              <label>Academic year <input class="request-text-input" id="masterYear" placeholder="2025-2026" maxlength="9" required></label>
+              <label>Semester <select class="request-text-input" id="masterSemester" required><option value="1">1st Semester</option><option value="2">2nd Semester</option><option value="3">Summer</option></select></label>
+              <label>CSV file (student_id, full_name, optional course, year, section) <input class="request-text-input" id="masterFile" type="file" accept=".csv" required></label>
+              <button class="request-next-btn" type="submit" id="masterImportBtn">Check file</button>
+            </form>
+            <div id="masterPlan" class="notice" hidden></div>
+            <h3>Imported lists</h3>
+            <div class="requests-table-wrap"><table class="requests-table"><thead><tr><th>Academic year</th><th>Semester</th><th>Students</th><th>Status</th><th>Imported</th><th>Archived</th></tr></thead><tbody id="masterImports"></tbody></table></div>
+            <h3>Search validation records</h3>
+            <div class="filters">
+              <select class="request-text-input" id="mfScope"><option value="all">Active + archived</option><option value="active">Active only</option><option value="archived">Archived only</option></select>
+              <input class="request-text-input" id="mfYear" placeholder="Academic year" maxlength="9">
+              <select class="request-text-input" id="mfSemester"><option value="">Any semester</option><option value="1">1st Semester</option><option value="2">2nd Semester</option><option value="3">Summer</option></select>
+              <input class="request-text-input" id="mfNo" placeholder="Student ID">
+              <input class="request-text-input" id="mfName" placeholder="Student name">
+              <select class="request-text-input" id="mfStatus"><option value="">Any validation status</option><option value="VALIDATED">Validated</option><option value="MISMATCH">Mismatch</option><option value="NOT_REGISTERED">Not registered</option><option value="INVALID">Invalid</option></select>
+              <label>Archived from <input class="request-text-input" type="date" id="mfFrom"></label>
+              <label>to <input class="request-text-input" type="date" id="mfTo"></label>
+            </div>
+            <div class="requests-table-wrap"><table class="requests-table"><thead><tr><th>Student ID</th><th>Name</th><th>Course / Year / Section</th><th>Validation</th><th>Period</th><th>List</th><th>Date archived</th></tr></thead><tbody id="masterRecords"></tbody></table></div>
+            <div class="release-control"><button class="request-back-btn" type="button" id="mfPrev">Previous</button><span id="mfPage"></span><button class="request-back-btn" type="button" id="mfNext">Next</button></div>
+          </div>
+        </div>
+
+        <div class="academic-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">ADMIN</p><h1>Academic Management</h1><p>Add, rename and deactivate levels, courses, year levels and sections. Items that students already use are deactivated, never deleted.</p></div>
+            <div class="page-actions"><button class="request-next-btn" id="academicAddBtn" type="button"><span class="material-symbol" aria-hidden="true">add</span> <span id="academicAddText">Add Level</span></button></div>
+          </header>
+          <div class="requests-card">
+            <div class="tab-bar" role="tablist" aria-label="Academic management">
+              <button class="tab-btn active" type="button" role="tab" data-academic-tab="levels">Levels</button>
+              <button class="tab-btn" type="button" role="tab" data-academic-tab="courses">Courses</button>
+              <button class="tab-btn" type="button" role="tab" data-academic-tab="year_levels">Year Levels</button>
+              <button class="tab-btn" type="button" role="tab" data-academic-tab="sections">Sections</button>
+            </div>
+            <div class="filter-bar" role="search" aria-label="Filter the list">
+              <label id="academicCourseGroupFilter" hidden>Category<select class="request-text-input" id="academicCourseGroup">
+                <option value="COLLEGE">College</option>
+              </select></label>
+              <label>Status<select class="request-text-input" id="academicStatusFilter"><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+              <label>Search<input class="request-text-input" id="academicSearch" type="search" placeholder="Name" autocomplete="off"></label>
+              <button class="request-back-btn filter-reset" id="academicReset" type="button">Reset filters</button>
+            </div>
+            <div class="requests-table-wrap"><table class="requests-table compact">
+              <thead id="academicHead"></thead>
+              <tbody id="academicBody"><tr><td colspan="5" class="requests-empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="students-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">MANAGEMENT</p><h1>Students</h1><p>View and manage student records or import students from a CSV file.</p></div>
+            <div class="page-actions">
+              <button class="request-back-btn" id="importCsvBtn" type="button"><span class="material-symbol" aria-hidden="true">upload_file</span> Import CSV</button>
+            </div>
+          </header>
+          <div class="requests-card">
+            <div class="requests-header">
+              <h2>All students</h2>
+            </div>
+            <div class="filter-bar" role="search" aria-label="Search students">
+              <label>Search students<input class="request-text-input" id="studentSearchInput" type="search" placeholder="Student ID, name, email, course..." autocomplete="off"></label>
+            </div>
+            <div class="filter-bar" id="studentFilters" role="search" aria-label="Filter students">
+              <label>School level<select class="request-text-input" id="studentLevelFilter"><option value="">All levels</option></select></label>
+              <label>Course / Department<select class="request-text-input" id="studentCourseFilter"><option value="">All courses</option></select></label>
+              <label>Year level<select class="request-text-input" id="studentYearFilter"><option value="">All years</option></select></label>
+              <button class="request-back-btn filter-reset" id="studentFiltersReset" type="button">Reset filters</button>
+            </div>
+            <p class="filter-count" id="studentCount" aria-live="polite"></p>
+            <div class="requests-table-wrap"><table class="requests-table">
+              <thead><tr><th>Student ID</th><th>Name</th><th>Course</th><th>Year level</th><th>Email</th></tr></thead>
+              <tbody id="studentsBody"><tr><td colspan="5" class="requests-empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="catalog-admin-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">MANAGEMENT</p><h1>Document Catalog</h1><p>Add documents, change their requirements and turn them on or off. Students see changes right away.</p></div>
+            <div class="page-actions">
+              <button class="request-next-btn" id="addDocumentBtn" type="button"><span class="material-symbol" aria-hidden="true">add</span> Add Document</button>
+            </div>
+          </header>
+          <div class="requests-card">
+            <div class="filter-bar" role="search" aria-label="Search documents">
+              <label>Search documents<input class="request-text-input" id="catalogSearchInput" type="search" placeholder="Document name..." autocomplete="off"></label>
+            </div>
+            <div class="filter-bar" role="search" aria-label="Filter documents">
+              <label>Category<select class="request-text-input" id="catalogCategoryFilter"><option value="">All categories</option></select></label>
+              <label>Status<select class="request-text-input" id="catalogStatusFilter"><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+              <button class="request-back-btn filter-reset" id="catalogFiltersReset" type="button">Reset filters</button>
+            </div>
+            <div class="requests-table-wrap"><table class="requests-table">
+              <thead><tr><th>Document</th><th>Category</th><th>Requirements</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="catalogAdminBody"><tr><td colspan="6" class="requests-empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="users-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">ADMIN</p><h1>Accounts</h1><p>Create Admin and Registrar accounts, and enable or disable access. Students are managed on the Students page.</p></div>
+          </header>
+          <form class="info-card inline-form" id="userForm" novalidate>
+            <input class="request-text-input" id="newFullName" placeholder="Full name" autocomplete="off" maxlength="120" required>
+            <input class="request-text-input" id="newUsername" placeholder="Username" autocomplete="off" maxlength="50" required>
+            <input class="request-text-input" id="newEmail" type="email" placeholder="Email (optional)" autocomplete="off" maxlength="120">
+            <select class="request-text-input" id="newRole" required aria-label="Role">
+              <option value="">Select role</option>
+              <option value="admin">Admin</option><option value="registrar">Registrar</option>
+            </select>
+            <span class="password-field">
+              <input class="request-text-input" id="newPasswordUser" type="password" placeholder="Password (8+ characters)" autocomplete="new-password" required>
+              <button class="eye-btn material-symbol" type="button" data-eye="newPasswordUser" aria-label="Show password">visibility</button>
+            </span>
+            <span class="password-field">
+              <input class="request-text-input" id="newPasswordConfirm" type="password" placeholder="Confirm password" autocomplete="new-password" required>
+              <button class="eye-btn material-symbol" type="button" data-eye="newPasswordConfirm" aria-label="Show password">visibility</button>
+            </span>
+            <button class="request-next-btn" type="submit">Create account</button>
+            <p class="form-message" id="userMessage" role="status" aria-live="polite"></p>
+          </form>
+          <div class="requests-card">
+            <div class="requests-header"><h2>Admin and Registrar accounts</h2></div>
+            <div class="filter-bar" role="search" aria-label="Filter accounts">
+              <label>Role<select class="request-text-input" id="userRoleFilter"><option value="">All roles</option><option value="admin">Admin</option><option value="registrar">Registrar</option></select></label>
+              <label>Status<select class="request-text-input" id="userStatusFilter"><option value="">All</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
+              <button class="request-back-btn filter-reset" id="userFiltersReset" type="button">Reset filters</button>
+            </div>
+            <div class="requests-table-wrap"><table class="requests-table">
+              <thead><tr><th>Username</th><th>Name</th><th>Role</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="usersBody"><tr><td colspan="5" class="requests-empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="documents-page" hidden>
+          <header class="dashboard-heading">
+            <div><p class="dashboard-eyebrow">ADMIN</p><h1>Documents</h1><p>Change prices and turn documents on or off. Students see changes right away.</p></div>
+          </header>
+          <div class="requests-card">
+            <div class="requests-table-wrap"><table class="requests-table">
+              <thead><tr><th>Document</th><th>Requirements</th><th>Price</th><th>Available</th><th>Action</th></tr></thead>
+              <tbody id="documentsBody"><tr><td colspan="5" class="requests-empty">Loading...</td></tr></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="requests" hidden>
+  <div class="requests-card" id="requestsHistoryCard">
+    <div class="requests-header">
+      <h2>Document Requests</h2>
+      <button class="request-back-btn" id="exportRequestsBtn" type="button"><span class="material-symbol" aria-hidden="true">download</span> Export</button>
+    </div>
+
+    <div class="filter-bar" role="search" aria-label="Search all requests">
+      <label>Search requests<input class="request-text-input" type="search" id="allRequestsSearchInput" placeholder="Tracking number or requester..." autocomplete="off"></label>
+    </div>
+    <div class="filter-bar" id="requestFilters" role="search" aria-label="Filter requests">
+      <label>Status<select class="request-text-input" id="statusFilter"><option value="">All statuses</option></select></label>
+      <label>Payment<select class="request-text-input" id="paymentFilter"><option value="">All</option><option value="Paid">Paid</option><option value="Unpaid">Unpaid</option></select></label>
+      <label>Document<select class="request-text-input" id="documentFilter"><option value="">All documents</option></select></label>
+      <label>From<input class="request-text-input" type="date" id="dateFrom"></label>
+      <label>To<input class="request-text-input" type="date" id="dateTo"></label>
+      <button class="request-back-btn filter-reset" id="filtersReset" type="button">Reset filters</button>
+    </div>
+    <p class="filter-count" id="requestCount" aria-live="polite"></p>
+
+    <div class="requests-table-wrap">
+      <table class="requests-table">
+        <thead>
+          <tr>
+            <th>Tracking #</th>
+            <th>Requester</th>
+            <th>Document</th>
+            <th>Amount</th>
+            <th>Date Release</th>
+            <th>Payment</th>
+            <th>Payment method</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="requestsBody">
+          <tr>
+            <td colspan="8" class="requests-empty">No requests found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+                
+        <div class="settings-page" hidden>
+          <header class="dashboard-heading">
+            <div>
+              <p class="dashboard-eyebrow">GENERAL</p>
+              <h1>Settings</h1>
+              <p>Change your password.</p>
+            </div>
+          </header>
+          <form class="info-card settings-form" id="passwordForm" novalidate>
+            <label for="currentPassword">Current password</label>
+            <input class="request-text-input" id="currentPassword" type="password" autocomplete="current-password" required>
+            <label for="newPassword">New password (at least 8 characters)</label>
+            <span class="password-field">
+              <input class="request-text-input" id="newPassword" type="password" autocomplete="new-password" required>
+              <button class="eye-btn material-symbol" type="button" data-eye="newPassword" aria-label="Show new password">visibility</button>
+            </span>
+            <label for="confirmPassword">Confirm new password</label>
+            <span class="password-field">
+              <input class="request-text-input" id="confirmPassword" type="password" autocomplete="new-password" required>
+              <button class="eye-btn material-symbol" type="button" data-eye="confirmPassword" aria-label="Show confirm password">visibility</button>
+            </span>
+            <p class="form-message" id="passwordMessage" role="status" aria-live="polite"></p>
+            <button class="request-next-btn" type="submit">Change password</button>
+          </form>
+
+          <section class="info-card settings-form" id="aiTestCard" data-roles="admin">
+            <h3>AI tools</h3>
+            <p>Checks that the document pre-check works: the reader (Tesseract, or the online OCR on Hostinger) and PHP GD (picture quality).</p>
+            <button class="request-back-btn" id="aiTestBtn" type="button">Check AI tools</button>
+            <ul class="tool-list" id="aiTestList"></ul>
+          </section>
+        </div>
+
+<div class="org-chart" hidden>
+  <header class="dashboard-heading">
+    <div>
+      <p class="dashboard-eyebrow">COLM REGISTRAR</p>
+      <h1>Organizational Chart</h1>
+    </div>
+  </header>
+
+  <div class="org-scroll">
+    <div class="org-tree">
+      <ul class="org-level org-level-root">
+        <li class="org-node org-node-president">
+          <div class="org-card">
+            <div class="org-card-top">
+              <div class="org-photo"></div>
+              <div class="org-info">
+                <strong>Santiago C. Castillo</strong>
+                <span>President</span>
+              </div>
+            </div>
+          </div>
+
+          <ul class="org-level org-level-leadership">
+            <li class="org-node org-node-vp">
+              <div class="org-card">
+                <div class="org-card-top">
+                  <div class="org-photo"></div>
+                  <div class="org-info">
+                    <strong>Arnuldo G. Magdaong, LPT, DBA (C)</strong>
+                    <span>Vice President for Administration and Student Services</span>
+                  </div>
+                </div>
+              </div>
+              <ul class="org-level org-level-registrars">
+            <!-- OIC-Registrar -->
+            <li class="org-node org-node-college-registrar">
+              <div class="org-card">
+                <div class="org-card-top">
+                  <div class="org-photo"></div>
+                  <div class="org-info">
+                    <strong>Limuel R. dela Cruz, CFMA, MBA (C)</strong>
+                    <span>College Registrar</span>
+                  </div>
+                </div>
+              </div>
+
+              <ul class="org-level org-level-college-team">
+                    <li>
+                      <div class="org-card">
+                        <div class="org-card-top">
+                          <div class="org-photo"></div>
+                          <div class="org-info">
+                            <strong>Shella Marie Venturina</strong>
+                            <span>Administrative Assistant</span>
+                            <em>Receiving</em>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="org-card">
+                        <div class="org-card-top">
+                          <div class="org-photo"></div>
+                          <div class="org-info">
+                            <strong>Dianara Pearl A. Cruz, LPT</strong>
+                            <span>Administrative Assistant</span>
+                            <em>Releasing</em>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="org-card">
+                        <div class="org-card-top">
+                          <div class="org-photo"></div>
+                          <div class="org-info">
+                            <strong>Gilaiza Salvador</strong>
+                            <span>Administrative Assistant</span>
+                            <em>HIMD, CSD, &amp; TED</em>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="org-node org-node-admissions">
+                      <div class="org-card">
+                        <div class="org-card-top">
+                          <div class="org-photo"></div>
+                          <div class="org-info">
+                            <strong>Jeremie Avilledo</strong>
+                            <span>Administrative Assistant</span>
+                            <em>AMD, ASD</em>
+                          </div>
+                        </div>
+                      </div>
+                      <ul class="org-level org-level-admissions-team">
+                        <li>
+                          <div class="org-card">
+                            <div class="org-card-top">
+                              <div class="org-photo"></div>
+                              <div class="org-info">
+                                <strong>Ma. Carina Anne E. Ordonio, LPT</strong>
+                                <span>Administrative Assistant</span>
+                                <em>Scholarship Coordinator</em>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="org-card">
+                            <div class="org-card-top">
+                              <div class="org-photo"></div>
+                              <div class="org-info">
+                                <strong>Precious Buenavixen Star Burton</strong>
+                                <span>Admission Officer</span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <div class="org-card">
+                        <div class="org-card-top">
+                          <div class="org-photo"></div>
+                          <div class="org-info">
+                            <strong>Michaela Navalta</strong>
+                            <span>Administrative Assistant</span>
+                            <em>CJED</em>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+              </ul>
+            </li>
+
+            <!-- OIC Registrar - Basic Education -->
+            <li class="org-node org-node-basic-registrar">
+              <div class="org-card">
+                <div class="org-card-top">
+                  <div class="org-photo"></div>
+                  <div class="org-info">
+                    <strong>Rona Mae B. Mendoza, LPT</strong>
+                    <span>Registrar for Basic Education Department</span>
+                  </div>
+                </div>
+              </div>
+
+              <ul class="org-level org-level-basic-team">
+                <li>
+                  <div class="org-card">
+                    <div class="org-card-top">
+                      <div class="org-photo"></div>
+                      <div class="org-info">
+                        <strong>Liana Genesis C. Flores</strong>
+                        <span>Administrative Assistant</span>
+                        <em>Basic Education</em>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="org-legend">
+    <span><strong>HIMD</strong>  Hospitality and Institutional Management</span>
+    <span><strong>TED</strong>  Teacher Education</span>
+    <span><strong>CSD</strong>  Computer Studies</span>
+    <span><strong>AMD</strong>  Accountancy and Management</span>
+    <span><strong>ASD</strong>  Allied Science</span>
+    <span><strong>CJED</strong>  Criminal Justice Education</span>
+  </div>
+</div>
+
+        <footer class="site-footer">
+          <p>COLM Registrar Document Request &amp; Tracking System &copy; 2026 COLM.</p>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+
+  <script src="js/api.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/auth.js?v=6"></script>
+  <script src="js/navigation.js?v=2"></script>
+  <script src="js/notifications.js?v=2"></script>
+  <script src="js/requests.js?v=11"></script>
+  <script src="js/profile.js?v=2"></script>
+  <script src="js/manage.js"></script>
+  <script src="js/softcopy.js"></script>
+  <script src="js/academic.js?v=2"></script>
+  <script src="js/students.js?v=3"></script>
+  <script src="js/receipts.js"></script>
+  <script src="js/masterlist.js"></script>
+  <script src="js/catalog.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Example nginx server block for COLM Registrar. Adjust the names/paths/php-fpm socket.
+server {
+    listen 443 ssl;
+    server_name registrar.example.edu;
+    # ssl_certificate ... ; ssl_certificate_key ... ;
+
+    root /var/www/colm/new-ui-main;
+    index index.html;
+    client_max_body_size 12m;
+
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    add_header Referrer-Policy same-origin always;
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    # Private files: never served.
+    location ~ /\.                          { deny all; }
+    location ~ ^/(backend|database|storage|tests|deploy)/ { deny all; }
+    location ~* \.(env|log|sql|md|csv|sample|example)$   { deny all; }
+
+    # PHP only inside /api/
+    location ~ ^/api/[A-Za-z0-9_]+\.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        fastcgi_read_timeout 130s;
+    }
+    location ~ \.php$ { return 404; }
+
+    location / { try_files $uri $uri/ =404; }
+}

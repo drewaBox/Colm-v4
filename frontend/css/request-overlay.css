@@ -1,0 +1,45 @@
+/* The request wizard opened from the landing page ("Request a Document" -> Continue). */
+/* It runs inside an iframe on index.html. js/newrequest.js adds .landing-flow to <html> and <body> only in that case, */
+/* so the normal student portal is not affected. The dim background comes from index.html (same as the first form). */
+
+html.landing-flow { background: transparent; color-scheme: light; }
+body.landing-flow { background: transparent; }
+
+/* Hide the portal (sidebar, header, pages): only the request wizard stays visible. */
+body.landing-flow .sidebar-backdrop { display: none; }
+body.landing-flow .app * { visibility: hidden; }
+body.landing-flow #requestFormPanel,
+body.landing-flow #requestFormPanel *,
+body.landing-flow dialog,
+body.landing-flow dialog * { visibility: visible; }
+
+/* The panel becomes the overlay and its inner box the white card. */
+body.landing-flow #requestFormPanel {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  margin: 0;
+  padding: 32px 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow-y: auto;
+}
+
+body.landing-flow #requestFormPanel[hidden] { display: none; }
+
+body.landing-flow #requestFormPanel .request-panel-inner {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .3);
+}
+
+@media (max-width: 640px) {
+  body.landing-flow #requestFormPanel { padding: 12px 8px; }
+  body.landing-flow #requestFormPanel .request-panel-inner { padding: 18px 14px; }
+}

@@ -1,0 +1,50 @@
+# COLM Registrar - Apache rules (needs AllowOverride All; Hostinger has it). Blocks every private file and folder.
+Options -Indexes
+DirectoryIndex index.html
+
+# Hidden files (.env, .git, .htaccess, storage markers ...)
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Files that must never be downloaded
+<FilesMatch "\.(env|log|sql|md|csv|sample|example|lock|json|sh|bak|zip|dist)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Private folders: even their .php files are not reachable from the web.
+    RewriteRule ^(backend|database|storage|tests|tools|deploy|vendor)(/|$) - [F,L]
+    # PHP is only allowed inside /api/ (the pages are static HTML + JavaScript).
+    RewriteCond %{REQUEST_URI} !/api/
+    RewriteRule \.php$ - [F,L]
+    # HTTPS: uncomment these 3 lines after the SSL certificate works (or use hPanel > SSL > Force HTTPS).
+    # RewriteCond %{HTTPS} off
+    # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "same-origin"
+</IfModule>
+
+# Safe PHP settings when the host allows them (hPanel > PHP Configuration can also set these).
+<IfModule mod_php.c>
+    php_flag display_errors off
+    php_flag log_errors on
+</IfModule>
